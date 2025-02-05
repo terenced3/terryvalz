@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Valentine's Surprise</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ffebee;
+            text-align: center;
+            padding: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .step {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+        }
+        .active {
+            display: block;
+        }
+        button {
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #d81b60;
+        }
+        h1 {
+            color: #d81b60;
+            font-size: 2.5em;
+        }
+        .food-option {
+            display: inline-block;
+            margin: 20px;
+            cursor: pointer;
+        }
+        .food-option img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1: Initial Question -->
+        <div class="step active" id="step1">
+            <h1>Will you be my Valentine? 💖</h1>
+            <button onclick="showStep(2)">Yes! 😍</button>
+            <button onclick="alert('Try again! 😉')">No 😢</button>
+        </div>
+
+        <!-- Step 2: Date Picker -->
+        <div class="step" id="step2">
+            <h1>When are you free? 📅</h1>
+            <input type="date" id="datePicker" min="2024-02-14">
+            <button onclick="saveDate()">Next →</button>
+        </div>
+
+        <!-- Step 3: Food Selection -->
+        <div class="step" id="step3">
+            <h1>What would you like to eat? 🍴</h1>
+            <div class="food-option" onclick="selectFood('Italian')">
+                <img src="https://example.com/italian.jpg" alt="Italian">
+                <p>Italian 🍝</p>
+            </div>
+            <div class="food-option" onclick="selectFood('Sushi')">
+                <img src="https://example.com/sushi.jpg" alt="Sushi">
+                <p>Sushi 🍣</p>
+            </div>
+            <button onclick="showFinal()">Confirm</button>
+        </div>
+
+        <!-- Final Step -->
+        <div class="step" id="finalStep">
+            <h1>Thank you! 💝</h1>
+            <p>I can't wait for our date on <span id="selectedDate"></span>!</p>
+            <p>We'll enjoy delicious <span id="selectedFood"></span> together ❤️</p>
+            <p>You make me the happiest person! 😘</p>
+        </div>
+    </div>
+
+    <script>
+        let selectedDate = '';
+        let selectedFood = '';
+
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
+
+        function saveDate() {
+            selectedDate = document.getElementById('datePicker').value;
+            showStep(3);
+        }
+
+        function selectFood(food) {
+            selectedFood = food;
+            document.querySelectorAll('.food-option').forEach(option => {
+                option.style.border = 'none';
+            });
+            event.currentTarget.style.border = '2px solid #ff4081';
+        }
+
+        function showFinal() {
+            if (!selectedFood) {
+                alert('Please select a food option!');
+                return;
+            }
+            document.getElementById('selectedDate').textContent = selectedDate;
+            document.getElementById('selectedFood').textContent = selectedFood;
+            showStep('finalStep');
+        }
+    </script>
+</body>
+</html>
